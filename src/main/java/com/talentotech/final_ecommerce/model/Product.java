@@ -1,7 +1,10 @@
 package com.talentotech.final_ecommerce.model;
 
+import com.talentotech.final_ecommerce.dto.ProductDTO;
 import jakarta.persistence.*;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "productos")
 public class Product {
@@ -13,35 +16,7 @@ public class Product {
     private double precio;
     private int stock;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public double getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(double precio) {
-        this.precio = precio;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
+    public ProductDTO getDTO(){
+        return new ProductDTO(id, nombre, precio, stock);
     }
 }
