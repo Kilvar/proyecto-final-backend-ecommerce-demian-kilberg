@@ -1,5 +1,6 @@
 package com.talentotech.final_ecommerce.model;
 
+import com.talentotech.final_ecommerce.dto.CategoryDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -10,5 +11,10 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int categoria_id;
-    String nombreCategoria;
+    String nombre_categoria;
+
+    public CategoryDTO getDTO(){
+        return new CategoryDTO(categoria_id, nombre_categoria);
+    }
+
 }

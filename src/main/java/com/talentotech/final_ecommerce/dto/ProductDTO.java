@@ -7,7 +7,7 @@ public record ProductDTO(
         String nombre,
         String descripcion,
         double precio,
-        Category categoria,
+        CategoryDTO categoria,
         int stock,
         String url_imagen) {
 }

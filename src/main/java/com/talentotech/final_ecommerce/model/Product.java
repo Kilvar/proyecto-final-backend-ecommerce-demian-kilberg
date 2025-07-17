@@ -22,12 +22,6 @@ public class Product {
     private String url_imagen;
 
     public ProductDTO getDTO(){
-        return new ProductDTO(producto_id, nombre, descripcion, precio, categoria, stock, url_imagen);
-    }
-
-    public void updateData(double price, int stock, String imageUrl) {
-        setPrecio(price);
-        setStock(stock);
-        setUrl_imagen(imageUrl);
+        return new ProductDTO(producto_id, nombre, descripcion, precio, categoria.getDTO(), stock, url_imagen);
     }
 }

@@ -1,18 +1,19 @@
 package com.talentotech.final_ecommerce.controller;
 
 import com.talentotech.final_ecommerce.dto.ProductDTO;
-import com.talentotech.final_ecommerce.dto.response.ProductResponseDTO;
-import com.talentotech.final_ecommerce.dto.response.ResponseDTO;
 import com.talentotech.final_ecommerce.exception.InvalidProductDataException;
 import com.talentotech.final_ecommerce.exception.ProductNotFoundException;
 import com.talentotech.final_ecommerce.model.Product;
+import com.talentotech.final_ecommerce.response.ResponseHandler;
 import com.talentotech.final_ecommerce.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.lang.Object;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/product")
@@ -22,70 +23,47 @@ public class ProductController {
     ProductService service;
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDTO> getProduct(@PathVariable int id) {
-        try {
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ProductResponseDTO("Producto encontrado", service.getProduct(id)));
-        } catch (ProductNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ResponseDTO(e.getMessage()));
-        }
-
+    public ResponseEntity<Object> getProduct(@PathVariable int id) {
+        return ResponseHandler.buildResponse("Producto encontrado con exito",
+                HttpStatus.OK, service.getProduct(id));
     }
 
     @GetMapping("/listAll")
-    public ResponseEntity<List<ProductDTO>> listProducts() {
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(service.getProductList());
+    public ResponseEntity<Object> listProducts() {
+            return ResponseHandler.buildResponse("Lista de productos registrados obtenida con exito",
+                    HttpStatus.OK,
+                    service.getProductList());
     }
 
     @GetMapping("/find")
-    public ResponseEntity<List<ProductDTO>> findProduct(@RequestParam String productName){
-        try {
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(service.findProduct(productName));
-        } catch (ProductNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(null);
-        }
+    public ResponseEntity<Object> findProduct(@RequestParam String productName){
+        System.out.println(productName);
+        return ResponseHandler.buildResponse("Productos encontrados con exito",
+                HttpStatus.OK,
+                service.findProduct(productName));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ResponseDTO> editProduct(@PathVariable int id,
-                                                   @RequestParam float price,
-                                                   @RequestParam int stock,
-                                                   @RequestParam String image_url){
-
-        try {
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ProductResponseDTO("Producto modificado", service.editProduct(id, price, stock, image_url)));
-        } catch (ProductNotFoundException | InvalidProductDataException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ResponseDTO(e.getMessage()));
-        }
+    @PatchMapping("/{id}")
+    public ResponseEntity<Object> editProduct(@PathVariable int id,
+                                              @RequestBody Map<String, Object> updatedFields){
+        return ResponseHandler.buildResponse("Producto editado con exito",
+                HttpStatus.OK,
+                service.editProduct(id, updatedFields));
 
     }
 
     @PostMapping("/")
-    public ResponseEntity<ResponseDTO> addProduct(@RequestBody Product p) {
-        try {
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(new ProductResponseDTO("Producto creado", service.addProduct(p)));
-        } catch (InvalidProductDataException e){
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
-                    .body(new ResponseDTO(e.getMessage()));
-        }
+    public ResponseEntity<Object> addProduct(@RequestBody Product p) {
+        return ResponseHandler.buildResponse("Producto creado con exito",
+                HttpStatus.CREATED,
+                service.addProduct(p));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseDTO> deleteProduct(@PathVariable int id){
-        try {
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseDTO(service.deleteProduct(id)));
-        } catch (ProductNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ResponseDTO(e.getMessage()));
-        }
+    public ResponseEntity<Object> deleteProduct(@PathVariable int id){
+        return ResponseHandler.buildResponse("Producto eliminado con exito",
+                HttpStatus.OK,
+                service.deleteProduct(id));
     }
 
 }
