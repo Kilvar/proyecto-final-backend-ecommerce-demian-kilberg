@@ -11,12 +11,23 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int producto_id;
     private String nombre;
+    private String descripcion;
     private double precio;
+    @ManyToOne
+    @JoinColumn(name = "categoria_id", nullable = false)
+    private Category categoria;
     private int stock;
+    private String url_imagen;
 
     public ProductDTO getDTO(){
-        return new ProductDTO(id, nombre, precio, stock);
+        return new ProductDTO(producto_id, nombre, descripcion, precio, categoria, stock, url_imagen);
+    }
+
+    public void updateData(double price, int stock, String imageUrl) {
+        setPrecio(price);
+        setStock(stock);
+        setUrl_imagen(imageUrl);
     }
 }
