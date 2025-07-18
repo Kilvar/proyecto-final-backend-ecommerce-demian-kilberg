@@ -1,17 +1,27 @@
 package com.talentotech.final_ecommerce.response;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class ResponseHandler {
-    public static ResponseEntity<Object> buildResponse(String message, HttpStatus status, Object result) {
+
+    //Utiliza http headers para devolver un mensaje informativo
+    public static <T> ResponseEntity<T> buildResponse(String message, HttpStatusCode status, T result){
+        var headers = new HttpHeaders();
+        headers.add("message", message);
+        return new ResponseEntity<>(result, headers, status);
+    }
+
+    /*
+    Alternativa que incluye datos extra en el body:
+
+    public static <T> ResponseEntity<T> buildResponse(String message, HttpStatus status, T result) {
         Map<String, Object> response = new HashMap<String, Object>();
         response.put("message", message); // Mensaje de exito o error
         response.put("status", status); // Codigo http
         response.put("result", result); // Datos del service o null si es error
         return new ResponseEntity<>(response, status);
     }
+    */
 }
