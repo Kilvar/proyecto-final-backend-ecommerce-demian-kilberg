@@ -10,11 +10,14 @@ import lombok.Data;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int categoria_id;
-    String nombre_categoria;
+    @Column(name = "categoria_id")
+    int categoriaId;
+
+    @Column(name="nombre_categoria")
+    String nombreCategoria;
 
     public CategoryDTO getDTO(){
-        return new CategoryDTO(categoria_id, nombre_categoria);
+        return new CategoryDTO(categoriaId, nombreCategoria);
     }
 
 }

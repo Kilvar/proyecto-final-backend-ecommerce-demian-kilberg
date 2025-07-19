@@ -4,6 +4,7 @@ import com.talentotech.final_ecommerce.dto.ProductDTO;
 import com.talentotech.final_ecommerce.model.Product;
 import com.talentotech.final_ecommerce.response.ResponseHandler;
 import com.talentotech.final_ecommerce.service.ProductService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("api/products")
 public class ProductController {
 
     @Autowired
@@ -26,20 +27,27 @@ public class ProductController {
                 HttpStatus.OK, service.getProduct(id));
     }
 
-    @GetMapping("/listAll")
+    @GetMapping("/list/all")
     public ResponseEntity<List<ProductDTO>> listProducts() {
             return ResponseHandler.buildResponse("Lista de productos registrados obtenida con exito",
                     HttpStatus.OK,
                     service.getProductList());
     }
 
+    @GetMapping("/list/{categoryName}")
+    public ResponseEntity<List<ProductDTO>> listProductsByCategory(@PathVariable String categoryName){
+        return ResponseHandler.buildResponse("Lista de productos registrados por categoria obtenida con exito",
+            HttpStatus.OK,
+            service.getProductListByCategory(categoryName));
+    }
+
     @GetMapping("/find")
     public ResponseEntity<List<ProductDTO>> findProduct(@RequestParam String productName){
-        System.out.println(productName);
         return ResponseHandler.buildResponse("Productos encontrados con exito",
                 HttpStatus.OK,
                 service.findProduct(productName));
     }
+
 
     @PatchMapping("/{id}")
     public ResponseEntity<ProductDTO> editProduct(@PathVariable int id,

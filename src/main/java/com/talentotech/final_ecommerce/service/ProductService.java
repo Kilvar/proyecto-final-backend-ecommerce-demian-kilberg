@@ -8,12 +8,9 @@ import com.talentotech.final_ecommerce.model.Product;
 import com.talentotech.final_ecommerce.repository.CategoryRepo;
 import com.talentotech.final_ecommerce.repository.ProductRepo;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.PropertyValueException;
-import org.springframework.beans.PropertyValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Map;
 
@@ -48,10 +45,15 @@ public class ProductService {
     }
 
     public List<ProductDTO> getProductList(){
-
         return prodRepo.findAll().stream()
                 .map(Product::getDTO)
                 .toList();
+    }
+    //TODO: crear category service y manejar excepciones de busqueda categoria
+    public List<ProductDTO> getProductListByCategory(String name){
+        Category c = catRepo.findBynombreCategoria(name);
+        return prodRepo.findByCategoria(c).stream()
+                .map(Product::getDTO).toList();
     }
 
     public List<ProductDTO> findProduct(String name) {

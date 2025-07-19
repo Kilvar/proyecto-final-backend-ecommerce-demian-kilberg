@@ -11,7 +11,8 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int producto_id;
+    @Column(name = "producto_id")
+    private int productoId;
     private String nombre;
     private String descripcion;
     private double precio;
@@ -22,6 +23,6 @@ public class Product {
     private String url_imagen;
 
     public ProductDTO getDTO(){
-        return new ProductDTO(producto_id, nombre, descripcion, precio, categoria.getDTO(), stock, url_imagen);
+        return new ProductDTO(productoId, nombre, descripcion, precio, categoria.getDTO(), stock, url_imagen);
     }
 }
