@@ -26,9 +26,7 @@ public class CategoryService {
                 .orElseThrow(()-> new CategoryNotFoundException(String.format("El nombre %s es invalido", name)));
     }
 
-    public List<CategoryDTO> getCategoryList(){
-        return catRepo.findAll().stream()
-                .map(Category::getDTO)
-                .toList();
+    public List<Category> getCategoryList(){
+        return catRepo.findAll();
     }
 }

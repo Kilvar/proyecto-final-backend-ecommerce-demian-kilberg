@@ -22,28 +22,40 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> getProduct(@PathVariable Long id) {
         return ResponseHandler.buildResponse("Producto encontrado con exito",
-                HttpStatus.OK, service.getProduct(id));
+                HttpStatus.OK, service.getProductById(id).getDTO());
     }
 
     @GetMapping("/list/all")
     public ResponseEntity<List<ProductDTO>> listProducts() {
+
+        List<ProductDTO> pList = service.getProductList().stream()
+                .map(Product::getDTO).toList();
+
             return ResponseHandler.buildResponse("Lista de productos registrados obtenida con exito",
                     HttpStatus.OK,
-                    service.getProductList());
+                    pList);
     }
 
     @GetMapping("/list/{categoryName}")
     public ResponseEntity<List<ProductDTO>> listProductsByCategory(@PathVariable String categoryName){
+
+        List<ProductDTO> pList = service.getProductListByCategory(categoryName).stream()
+                .map(Product::getDTO).toList();
+
         return ResponseHandler.buildResponse("Lista de productos registrados por categoria obtenida con exito",
             HttpStatus.OK,
-            service.getProductListByCategory(categoryName));
+            pList);
     }
 
     @GetMapping("/find")
     public ResponseEntity<List<ProductDTO>> findProduct(@RequestParam String productName){
+
+        List<ProductDTO> pList = service.findProduct(productName).stream()
+                .map(Product::getDTO).toList();
+
         return ResponseHandler.buildResponse("Productos encontrados con exito",
                 HttpStatus.OK,
-                service.findProduct(productName));
+                pList);
     }
 
 
@@ -52,15 +64,14 @@ public class ProductController {
                                               @RequestBody Map<String, Object> updatedFields){
         return ResponseHandler.buildResponse("Producto editado con exito",
                 HttpStatus.OK,
-                service.editProduct(id, updatedFields));
-
+                service.editProduct(id, updatedFields).getDTO());
     }
 
     @PostMapping("/")
     public ResponseEntity<ProductDTO> addProduct(@RequestBody Product p) {
         return ResponseHandler.buildResponse("Producto creado con exito",
                 HttpStatus.CREATED,
-                service.addProduct(p));
+                service.addProduct(p).getDTO());
     }
 
     @DeleteMapping("/{id}")

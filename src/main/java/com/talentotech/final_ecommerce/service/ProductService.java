@@ -38,35 +38,30 @@ public class ProductService {
         return stock;
     }
 
-    public ProductDTO getProduct(Long prodId) {
-        return getProductFromRepo(prodId).getDTO();
+    public Product getProductById(Long prodId) {
+        return getProductFromRepo(prodId);
     }
 
-    public List<ProductDTO> getProductList(){
-        return prodRepo.findAll().stream()
-                .map(Product::getDTO)
-                .toList();
+    public List<Product> getProductList(){
+        return prodRepo.findAll();
     }
 
-    public List<ProductDTO> getProductListByCategory(String name){
+    public List<Product> getProductListByCategory(String name){
         Category c = catServ.getCategoryByName(name);
-        return prodRepo.findByCategoria(c).stream()
-                .map(Product::getDTO).toList();
+        return prodRepo.findByCategoria(c);
     }
 
-    public List<ProductDTO> findProduct(String name) {
+    public List<Product> findProduct(String name) {
         return prodRepo.findByNombreContainingIgnoreCase(name)
-                .orElseThrow(()-> new ProductNotFoundException(name))
-                .stream().map(Product::getDTO)
-                .toList();
+                .orElseThrow(()-> new ProductNotFoundException(name));
     }
 
-    public ProductDTO addProduct(Product p) {
+    public Product addProduct(Product p) {
 
         validatePrice(p.getPrecio().doubleValue());
         validateStock(p.getStock());
 
-        return prodRepo.save(p).getDTO();
+        return prodRepo.save(p);
 
     }
 
@@ -78,7 +73,7 @@ public class ProductService {
 
     }
 
-    public ProductDTO editProduct(Long prodId, Map<String, Object> updatedFields) {
+    public Product editProduct(Long prodId, Map<String, Object> updatedFields) {
         Product p = getProductFromRepo(prodId);
         try {
             updatedFields.forEach((key, value) -> {
@@ -114,6 +109,6 @@ public class ProductService {
             throw new InvalidProductDataException("Verifique los datos de entrada");
         }
 
-        return prodRepo.save(p).getDTO();
+        return prodRepo.save(p);
     }
 }
