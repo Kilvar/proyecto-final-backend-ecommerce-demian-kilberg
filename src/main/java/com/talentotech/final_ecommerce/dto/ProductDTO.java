@@ -1,7 +1,7 @@
 package com.talentotech.final_ecommerce.dto;
 
 public record ProductDTO(
-        int id,
+        Long id,
         String nombre,
         String descripcion,
         double precio,

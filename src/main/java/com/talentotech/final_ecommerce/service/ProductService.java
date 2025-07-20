@@ -22,7 +22,7 @@ public class ProductService {
     CategoryService catServ;
 
 
-    private Product getProductFromRepo(int prodId){
+    private Product getProductFromRepo(Long prodId){
         return prodRepo.findById(prodId)
                 .orElseThrow(() -> new ProductNotFoundException(prodId));
     }
@@ -37,7 +37,7 @@ public class ProductService {
         return stock;
     }
 
-    public ProductDTO getProduct(int prodId) {
+    public ProductDTO getProduct(Long prodId) {
         return getProductFromRepo(prodId).getDTO();
     }
 
@@ -46,7 +46,7 @@ public class ProductService {
                 .map(Product::getDTO)
                 .toList();
     }
-    //TODO: crear category service y manejar excepciones de busqueda categoria
+
     public List<ProductDTO> getProductListByCategory(String name){
         Category c = catServ.getCategoryByName(name);
         return prodRepo.findByCategoria(c).stream()
@@ -69,7 +69,7 @@ public class ProductService {
 
     }
 
-    public String deleteProduct(int prodId) {
+    public String deleteProduct(Long prodId) {
         Product p = getProductFromRepo(prodId);
         String name = p.getNombre();
         prodRepo.delete(p);
@@ -77,7 +77,7 @@ public class ProductService {
 
     }
 
-    public ProductDTO editProduct(int prodId, Map<String, Object> updatedFields) {
+    public ProductDTO editProduct(Long prodId, Map<String, Object> updatedFields) {
         Product p = getProductFromRepo(prodId);
         try {
             updatedFields.forEach((key, value) -> {
@@ -95,7 +95,7 @@ public class ProductService {
                         p.setStock(validateStock((int) value));
                         break;
                     case("categoria_id"):
-                        int id = (int) value;
+                        Long id = (Long) value;
                         p.setCategoria(catServ.getCategoryById(id));
                         break;
                     case("url_imagen"):

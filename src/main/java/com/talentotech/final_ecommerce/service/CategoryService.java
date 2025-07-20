@@ -15,7 +15,7 @@ public class CategoryService {
     @Autowired
     CategoryRepo catRepo;
 
-    public Category getCategoryById(int id){
+    public Category getCategoryById(Long id){
         return catRepo.findById(id)
                 .orElseThrow(()-> new CategoryNotFoundException(String.format("El id %d es invalido", id))
                 );

@@ -8,7 +8,7 @@ public class ProductNotFoundException extends ShopApiException {
                 HttpStatus.NOT_FOUND);
     }
 
-    public ProductNotFoundException(int id) {
+    public ProductNotFoundException(Long id) {
         super(String.format("No se pudo encontrar el producto con el ID: %d", id),
                 HttpStatus.NOT_FOUND);
     }

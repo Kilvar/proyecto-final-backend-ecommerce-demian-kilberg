@@ -4,21 +4,19 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.List;
-/*
+
 @Entity
 @Table(name = "pedidos")
 @Data
-*/
+
 public class Order {
 
-    /*
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int order_id;
+    Long order_id;
 
-    @ManyToOne
-    @JoinColumn(name = "producto_id")
+    @OneToMany(mappedBy = "order")
     List<Product> productList;
     String orderStatus;
-    */
 }

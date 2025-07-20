@@ -20,7 +20,7 @@ public class ProductController {
     ProductService service;
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDTO> getProduct(@PathVariable int id) {
+    public ResponseEntity<ProductDTO> getProduct(@PathVariable Long id) {
         return ResponseHandler.buildResponse("Producto encontrado con exito",
                 HttpStatus.OK, service.getProduct(id));
     }
@@ -48,7 +48,7 @@ public class ProductController {
 
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ProductDTO> editProduct(@PathVariable int id,
+    public ResponseEntity<ProductDTO> editProduct(@PathVariable Long id,
                                               @RequestBody Map<String, Object> updatedFields){
         return ResponseHandler.buildResponse("Producto editado con exito",
                 HttpStatus.OK,
@@ -64,7 +64,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteProduct(@PathVariable int id){
+    public ResponseEntity<String> deleteProduct(@PathVariable Long id){
         return ResponseHandler.buildResponse("Producto eliminado con exito",
                 HttpStatus.OK,
                 service.deleteProduct(id));
