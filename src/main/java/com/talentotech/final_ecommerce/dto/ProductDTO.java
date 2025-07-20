@@ -1,7 +1,5 @@
 package com.talentotech.final_ecommerce.dto;
 
-import com.talentotech.final_ecommerce.model.Category;
-
 public record ProductDTO(
         int id,
         String nombre,

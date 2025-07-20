@@ -5,16 +5,13 @@ import com.talentotech.final_ecommerce.exception.InvalidProductDataException;
 import com.talentotech.final_ecommerce.exception.ProductNotFoundException;
 import com.talentotech.final_ecommerce.model.Category;
 import com.talentotech.final_ecommerce.model.Product;
-import com.talentotech.final_ecommerce.repository.CategoryRepo;
 import com.talentotech.final_ecommerce.repository.ProductRepo;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 
-@Slf4j
 @Service
 public class ProductService {
 
@@ -22,7 +19,7 @@ public class ProductService {
     ProductRepo prodRepo;
 
     @Autowired
-    CategoryRepo catRepo;
+    CategoryService catServ;
 
 
     private Product getProductFromRepo(int prodId){
@@ -51,17 +48,16 @@ public class ProductService {
     }
     //TODO: crear category service y manejar excepciones de busqueda categoria
     public List<ProductDTO> getProductListByCategory(String name){
-        Category c = catRepo.findBynombreCategoria(name);
+        Category c = catServ.getCategoryByName(name);
         return prodRepo.findByCategoria(c).stream()
                 .map(Product::getDTO).toList();
     }
 
     public List<ProductDTO> findProduct(String name) {
-        List<ProductDTO> l = prodRepo.findByNombreContainingIgnoreCase(name).stream()
-                .map(Product::getDTO)
+        return prodRepo.findByNombreContainingIgnoreCase(name)
+                .orElseThrow(()-> new ProductNotFoundException(name))
+                .stream().map(Product::getDTO)
                 .toList();
-        if (l.isEmpty()) throw new ProductNotFoundException(name);
-        return l;
     }
 
     public ProductDTO addProduct(Product p) {
@@ -100,8 +96,7 @@ public class ProductService {
                         break;
                     case("categoria_id"):
                         int id = (int) value;
-                        Category c = catRepo.findById(id).orElseThrow(()-> new InvalidProductDataException(id));
-                        p.setCategoria(c);
+                        p.setCategoria(catServ.getCategoryById(id));
                         break;
                     case("url_imagen"):
                         p.setUrl_imagen((String) value);

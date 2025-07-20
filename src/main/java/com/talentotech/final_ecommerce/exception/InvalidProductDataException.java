@@ -8,8 +8,4 @@ public class InvalidProductDataException extends ShopApiException {
                 HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
-    public InvalidProductDataException(int categoria_id) {
-        super(String.format("El producto especificado no es valido. No existe categoria con id: %d", categoria_id),
-                HttpStatus.BAD_REQUEST);
-    }
 }

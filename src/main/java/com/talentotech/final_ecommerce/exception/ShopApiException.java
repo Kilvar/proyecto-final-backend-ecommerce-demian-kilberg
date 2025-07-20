@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 public class ShopApiException extends RuntimeException {
 
-    HttpStatus returnStatus;
+    final HttpStatus returnStatus;
 
     public ShopApiException(String message, HttpStatus returnStatus) {
         super(message);
