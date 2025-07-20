@@ -11,10 +11,10 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "categoria_id")
-    Long categoriaId;
+    private Long categoriaId;
 
     @Column(name="nombre_categoria")
-    String nombreCategoria;
+    private String nombreCategoria;
 
     public CategoryDTO getDTO(){
         return new CategoryDTO(categoriaId, nombreCategoria);

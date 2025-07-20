@@ -9,6 +9,7 @@ import com.talentotech.final_ecommerce.repository.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -27,9 +28,9 @@ public class ProductService {
                 .orElseThrow(() -> new ProductNotFoundException(prodId));
     }
 
-    private double validatePrice(double price){
+    private BigDecimal validatePrice(double price){
         if(price <= 0) throw new InvalidProductDataException("Precio debe ser mayor a 0");
-        return price;
+        return BigDecimal.valueOf(price);
     }
 
     private int validateStock(int stock){
@@ -62,7 +63,7 @@ public class ProductService {
 
     public ProductDTO addProduct(Product p) {
 
-        validatePrice(p.getPrecio());
+        validatePrice(p.getPrecio().doubleValue());
         validateStock(p.getStock());
 
         return prodRepo.save(p).getDTO();
@@ -89,6 +90,7 @@ public class ProductService {
                         p.setDescripcion((String) value);
                         break;
                     case("precio"):
+                        if(value instanceof Integer) { value = ((Integer) value).doubleValue(); } //Si el json envia un precio sin decimales, convertir a float para validar
                         p.setPrecio(validatePrice((double) value));
                         break;
                     case("stock"):
@@ -108,6 +110,7 @@ public class ProductService {
                 }
             });
         } catch (ClassCastException | NumberFormatException e) {
+            System.out.println(e.getMessage());
             throw new InvalidProductDataException("Verifique los datos de entrada");
         }
 
