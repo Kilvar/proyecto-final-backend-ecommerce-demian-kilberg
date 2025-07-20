@@ -16,12 +16,12 @@ public class ResponseHandler {
     /*
     Alternativa que incluye datos extra en el body:
 
-    public static <T> ResponseEntity<T> buildResponse(String message, HttpStatus status, T result) {
+    public static <T> ResponseEntity<T> buildResponse(String message, HttpStatus estado, T result) {
         Map<String, Object> response = new HashMap<String, Object>();
         response.put("message", message); // Mensaje de exito o error
-        response.put("status", status); // Codigo http
+        response.put("estado", estado); // Codigo http
         response.put("result", result); // Datos del service o null si es error
-        return new ResponseEntity<>(response, status);
+        return new ResponseEntity<>(response, estado);
     }
     */
 }

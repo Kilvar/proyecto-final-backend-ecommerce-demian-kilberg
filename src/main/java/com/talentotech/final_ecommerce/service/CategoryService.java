@@ -1,6 +1,5 @@
 package com.talentotech.final_ecommerce.service;
 
-import com.talentotech.final_ecommerce.dto.CategoryDTO;
 import com.talentotech.final_ecommerce.exception.CategoryNotFoundException;
 import com.talentotech.final_ecommerce.model.Category;
 import com.talentotech.final_ecommerce.repository.CategoryRepo;
@@ -24,6 +23,10 @@ public class CategoryService {
     public Category getCategoryByName(String name){
         return catRepo.findBynombreCategoriaIgnoreCase(name)
                 .orElseThrow(()-> new CategoryNotFoundException(String.format("El nombre %s es invalido", name)));
+    }
+
+    public Category addCategory(Category c){
+        return catRepo.save(c);
     }
 
     public List<Category> getCategoryList(){

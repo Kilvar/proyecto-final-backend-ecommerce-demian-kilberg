@@ -50,7 +50,7 @@ public class ProductController {
     @GetMapping("/find")
     public ResponseEntity<List<ProductDTO>> findProduct(@RequestParam String productName){
 
-        List<ProductDTO> pList = service.findProduct(productName).stream()
+        List<ProductDTO> pList = service.getProductByName(productName).stream()
                 .map(Product::getDTO).toList();
 
         return ResponseHandler.buildResponse("Productos encontrados con exito",

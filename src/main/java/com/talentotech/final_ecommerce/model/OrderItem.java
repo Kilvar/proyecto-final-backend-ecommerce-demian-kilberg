@@ -1,5 +1,6 @@
 package com.talentotech.final_ecommerce.model;
 
+import com.talentotech.final_ecommerce.dto.OrderItemDTO;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -33,6 +34,12 @@ public class OrderItem {
         this.precio_unidad = price;
     }
 
+    public OrderItemDTO getDTO(){
+        return new OrderItemDTO(producto.getNombre(),
+                cantidad,
+                precio_unidad.doubleValue(),
+                getSubtotalItem().doubleValue());
+    }
 
     public BigDecimal getSubtotalItem(){
         return BigDecimal.valueOf(cantidad).multiply(precio_unidad);

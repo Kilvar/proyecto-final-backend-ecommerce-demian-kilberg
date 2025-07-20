@@ -1,14 +1,15 @@
 package com.talentotech.final_ecommerce.model;
 
 import com.talentotech.final_ecommerce.dto.ProductDTO;
+import com.talentotech.final_ecommerce.exception.BadStockException;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
 
-@Data
 @Entity
 @Table(name = "productos")
+@Data
 public class Product {
 
     @Id
@@ -27,4 +28,10 @@ public class Product {
     public ProductDTO getDTO(){
         return new ProductDTO(productoId, nombre, descripcion, precio.doubleValue(), categoria.getDTO(), stock, url_imagen);
     }
+
+    public void subStock(int quantity){
+        if(quantity > stock || quantity <= 0) throw new BadStockException(nombre);
+        stock -= quantity;
+    }
+
 }

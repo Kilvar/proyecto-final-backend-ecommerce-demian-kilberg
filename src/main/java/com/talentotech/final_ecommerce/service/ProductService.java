@@ -1,6 +1,5 @@
 package com.talentotech.final_ecommerce.service;
 
-import com.talentotech.final_ecommerce.dto.ProductDTO;
 import com.talentotech.final_ecommerce.exception.InvalidProductDataException;
 import com.talentotech.final_ecommerce.exception.ProductNotFoundException;
 import com.talentotech.final_ecommerce.model.Category;
@@ -51,7 +50,7 @@ public class ProductService {
         return prodRepo.findByCategoria(c);
     }
 
-    public List<Product> findProduct(String name) {
+    public List<Product> getProductByName(String name) {
         return prodRepo.findByNombreContainingIgnoreCase(name)
                 .orElseThrow(()-> new ProductNotFoundException(name));
     }

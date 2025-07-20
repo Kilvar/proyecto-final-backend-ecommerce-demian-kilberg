@@ -7,14 +7,19 @@ import lombok.Data;
 @Entity
 @Table(name = "categorias")
 @Data
+
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "categoria_id")
     private Long categoriaId;
 
-    @Column(name="nombre_categoria")
     private String nombreCategoria;
+
+    protected Category() {}
+
+    public Category(String name){
+        this.nombreCategoria = name;
+    }
 
     public CategoryDTO getDTO(){
         return new CategoryDTO(categoriaId, nombreCategoria);
